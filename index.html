@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robux и Stars</title>
+<style>
+  :root { --bg:#f4f6fb; --card:#fff; --text:#1c1c1e; --muted:#666; --accent:#2AABEE; --line:#e3e6ee; --err:#d93025; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#111; --card:#1c1c1e; --text:#eee; --muted:#aaa; --line:#333; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:16px; background:var(--bg); color:var(--text);
+         font-family:Arial,sans-serif; line-height:1.5; }
+  .wrap { max-width:440px; margin:0 auto; }
+  .card { background:var(--card); border-radius:16px; padding:20px; margin-bottom:16px;
+          box-shadow:0 4px 20px rgba(0,0,0,.08); }
+  h1 { margin:0 0 4px; font-size:24px; }
+  h2 { margin:0 0 12px; font-size:18px; }
+  .muted { color:var(--muted); font-size:14px; }
+  .tabs { display:flex; gap:8px; margin:12px 0; }
+  .tab { flex:1; padding:10px; border:1px solid var(--line); border-radius:10px;
+         background:transparent; color:var(--text); font-size:15px; cursor:pointer; }
+  .tab.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+  label { display:block; margin:12px 0 4px; font-size:14px; color:var(--muted); }
+  input { width:100%; padding:12px; font-size:16px; border-radius:10px;
+          border:1px solid var(--line); background:transparent; color:var(--text); }
+  .price { font-size:28px; font-weight:bold; margin:14px 0 2px; }
+  .err { color:var(--err); font-size:14px; min-height:20px; }
+  button.btn, a.btn { display:block; width:100%; text-align:center; padding:14px; margin-top:10px;
+          background:var(--accent); color:#fff; text-decoration:none; border:0;
+          border-radius:12px; font-weight:bold; font-size:16px; cursor:pointer; }
+  button.alt { background:transparent; color:var(--accent); border:1px solid var(--accent); }
+  .hidden { display:none; }
+  pre { white-space:pre-wrap; background:var(--bg); padding:12px; border-radius:10px;
+        font-family:inherit; font-size:14px; margin:8px 0; }
+  ol { padding-left:20px; margin:0; }
+  li { margin-bottom:6px; }
+  .hist { font-size:14px; border-top:1px solid var(--line); padding:8px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="card" id="shop">
+    <h1>Robux и Telegram Stars</h1>
+    <div class="muted" id="rateInfo">Загружаю курс…</div>
+
+    <div class="tabs">
+      <button class="tab active" id="tabRobux">🎮 Robux</button>
+      <button class="tab" id="tabStars">⭐ Stars</button>
+    </div>
+
+    <label for="amount">Количество</label>
+    <input type="number" id="amount" inputmode="numeric">
+    <div class="muted" id="limits"></div>
+
+    <label for="nick" id="nickLabel">Ник</label>
+    <input type="text" id="nick" autocomplete="off">
+
+    <div class="price" id="price">—</div>
+    <div class="muted" id="extra"></div>
+    <div class="err" id="err"></div>
+
+    <button class="btn" id="orderBtn">Оформить заказ</button>
+  </div>
+
+  <div class="card hidden" id="pay">
+    <h2>💳 Оплата</h2>
+    <pre id="orderText"></pre>
+    <div class="muted">Реквизиты:</div>
+    <pre id="payDetails"></pre>
+    <p class="muted">Оплатите и отправьте заказ со скриншотом чека менеджеру в Telegram.</p>
+    <a class="btn" id="tgBtn" href="#" target="_blank" rel="noopener">Отправить заказ в Telegram</a>
+    <button class="btn alt" id="copyBtn">Скопировать заказ</button>
+    <button class="btn alt" id="newBtn">Новый заказ</button>
+  </div>
+
+  <div class="card hidden" id="histCard">
+    <h2>🧾 Мои заказы</h2>
+    <div id="hist"></div>
+  </div>
+
+  <div class="card">
+    <h2>📖 Как купить</h2>
+    <ol>
+      <li>Выберите товар, введите количество и ник.</li>
+      <li>Нажмите «Оформить заказ» и оплатите по реквизитам.</li>
+      <li>Отправьте заказ и скриншот чека менеджеру в Telegram.</li>
+      <li>Мы проверим оплату и выдадим заказ вручную.</li>
+    </ol>
+    <p class="muted"><b>Robux:</b> геймпасс создаётся с ценой Robux ÷ 0,7
+      (Roblox берёт 30% комиссии). Сроки зачисления зависят от Roblox.</p>
+    <p class="muted"><b>Stars:</b> отправляем на ваш @username в Telegram.</p>
+    <p class="muted">🔒 Нужен только ник. Никогда не присылайте пароль,
+      код из почты или cookie.</p>
+  </div>
+
+</div>
+
+<script>
+  // ===== НАСТРОЙКИ =====
+  const MANAGER = "ВАШ_USERNAME";
+  const PAYMENT = "Uzcard: 8600 0000 0000 0000\nHumo: 9860 0000 0000 0000\nИмя Ф.";
+  const MARKUP_UZS = 8000;
+  const FALLBACK_RATE = 12700;
+  const PRODUCTS = {
+    robux: { name: "Robux", priceUsd: 0.010, min: 100, max: 50000, nickLabel: "Ник в Roblox", re: /^[A-Za-z0-9_]{3,20}$/ },
+    stars: { name: "Telegram Stars", priceUsd: 0.015, min: 50, max: 10000, nickLabel: "Ваш @username в Telegram", re: /^@?[A-Za-z0-9_]{5,32}$/ }
+  };
+  // =====================
+
+  const $ = id => document.getElementById(id);
+  let rate = FALLBACK_RATE;
+  let current = "robux";
+  let lastOrderText = "";
+
+  const fmt = n => Math.round(n).toLocaleString("ru-RU").replace(/\u00a0/g, " ") + " сум";
+  const calc = (key, n) => Math.ceil((n * PRODUCTS[key].priceUsd * rate + MARKUP_UZS) / 1000) * 1000;
+
+  async function loadRate() {
+    try {
+      const r = await fetch("https://cbu.uz/ru/arkhiv-kursov-valyut/json/USD/");
+      const d = await r.json();
+      rate = parseFloat(String(d[0].Rate).replace(",", "."));
+      $("rateInfo").textContent = "Курс ЦБ Узбекистана: 1 $ = " + fmt(rate);
+    } catch (e) {
+      $("rateInfo").textContent = "Курс задан вручную: 1 $ = " + fmt(rate);
+    }
+    update();
+  }
+
+  function update() {
+    const p = PRODUCTS[current];
+    const n = parseInt($("amount").value, 10) || 0;
+    const ok = n >= p.min && n <= p.max;
+    $("limits").textContent = "От " + p.min + " до " + p.max;
+    $("nickLabel").textContent = p.nickLabel;
+    $("price").textContent = ok ? fmt(calc(current, n)) : "—";
+    $("extra").textContent = ok && current === "robux"
+      ? "Цена геймпасса: " + Math.ceil(n / 0.7) + " Robux" : "";
+  }
+
+  function select(type) {
+    current = type;
+    $("tabRobux").classList.toggle("active", type === "robux");
+    $("tabStars").classList.toggle("active", type === "stars");
+    $("amount").value = "";
+    $("nick").value = "";
+    $("err").textContent = "";
+    update();
+  }
+
+  function loadHist() {
+    try { return JSON.parse(localStorage.getItem("orders") || "[]"); } catch (e) { return []; }
+  }
+  function saveHist(list) {
+    try { localStorage.setItem("orders", JSON.stringify(list.slice(0, 8))); } catch (e) {}
+  }
+  function renderHist() {
+    const list = loadHist();
+    $("histCard").classList.toggle("hidden", list.length === 0);
+    const box = $("hist");
+    box.innerHTML = "";
+    list.forEach(o => {
+      const div = document.createElement("div");
+      div.className = "hist";
+      div.textContent = "#" + o.id + " · " + o.name + " × " + o.amount + " · " + fmt(o.uzs) + " · " + o.date;
+      box.appendChild(div);
+    });
+  }
+
+  function createOrder() {
+    const p = PRODUCTS[current];
+    const n = parseInt($("amount").value, 10) || 0;
+    let nick = $("nick").value.trim();
+    const err = $("err");
+    if (n < p.min || n > p.max) { err.textContent = "Кол>
