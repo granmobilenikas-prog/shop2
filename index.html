@@ -3,111 +3,117 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Магазин Stars и Robux</title>
+<meta name="color-scheme" content="dark">
+<title>Магазин Telegram Stars</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-  :root{
-    --bg:#f3f5f9; --card:#ffffff; --text:#171a22; --muted:#6b7280;
-    --line:#e3e7ef; --stars:#f5a623; --robux:#1f9d55; --btn:#2a6df4; --btnText:#fff;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{ --bg:#12141a; --card:#1b1f29; --text:#eef0f6; --muted:#98a0b3; --line:#2a3040; }
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);
-    font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-    padding:16px 16px 120px}
-  h1{font-size:22px;margin:4px 0 14px}
-  .tabs{display:flex;gap:8px;margin-bottom:14px}
-  .tab{flex:1;padding:12px;border-radius:12px;border:2px solid var(--line);
-    background:var(--card);color:var(--text);font:inherit;font-weight:600;cursor:pointer}
-  .tab.active[data-p="stars"]{border-color:var(--stars)}
-  .tab.active[data-p="robux"]{border-color:var(--robux)}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .pack{background:var(--card);border:2px solid var(--line);border-radius:14px;
-    padding:14px 12px;text-align:left;color:var(--text);font:inherit;cursor:pointer}
-  .pack b{display:block;font-size:20px}
-  .pack span{color:var(--muted);font-size:14px}
-  .pack.sel{border-color:var(--btn)}
-  label{display:block;margin:18px 0 6px;font-weight:600}
-  input{width:100%;padding:12px;border-radius:12px;border:2px solid var(--line);
-    background:var(--card);color:var(--text);font:inherit}
-  input:focus{outline:none;border-color:var(--btn)}
-  .hint{color:var(--muted);font-size:13px;margin-top:6px}
-  .sum{margin-top:18px;background:var(--card);border-radius:14px;padding:14px}
-  .row{display:flex;justify-content:space-between;padding:4px 0}
-  .row.total{border-top:1px solid var(--line);margin-top:6px;padding-top:10px;font-weight:700;font-size:18px}
-  .bar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
-    background:var(--bg);border-top:1px solid var(--line)}
-  .go{width:100%;padding:15px;border:0;border-radius:14px;background:var(--btn);color:var(--btnText);
-    font:inherit;font-weight:700;font-size:17px;cursor:pointer}
-  .go:disabled{opacity:.45;cursor:default}
-  .err{color:#d93025;font-size:14px;margin-top:8px;min-height:18px}
-
-  .adm{display:none;margin:-6px 0 12px;padding:8px 14px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-weight:600;cursor:pointer}
-  #panel{display:none;position:fixed;inset:0;z-index:20;overflow:auto;background:var(--bg);padding:16px 16px 40px}
-  #panel h2{font-size:20px;margin:4px 0 10px}
-  #panel h3{font-size:16px;margin:20px 0 4px}
-  #panel label{margin:12px 0 4px;font-weight:600;font-size:14px}
-  .two{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end}
-  .cl{color:var(--muted);font-size:13px;padding-bottom:12px}
-  .btn2{width:100%;margin-top:10px;padding:13px;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);font:inherit;font-weight:600;cursor:pointer}
-  .ok{color:#1f9d55}
+:root{color-scheme:dark;--bg:#0d1016;--card:#161a23;--card2:#1c2130;--text:#eef0f6;--muted:#8a92a6;--line:#262c3c;
+  --gold:#ffb938;--gold2:#ff8a1f;--blue:#2a6df4;--ok:#35c27a;--err:#ff6b5e}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;color:var(--text);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  background:radial-gradient(520px 260px at 50% -40px,rgba(255,185,56,.16),transparent 70%),var(--bg);
+  padding:calc(18px + env(safe-area-inset-top,0px)) 16px 150px}
+.hero{text-align:center;margin:6px 0 22px}
+.logo{width:68px;height:68px;margin:0 auto 10px;border-radius:22px;display:grid;place-items:center;font-size:36px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));box-shadow:0 10px 30px rgba(255,150,30,.35)}
+h1{font-size:24px;margin:0 0 4px}
+.sub{color:var(--muted);font-size:14px}
+.sub b{color:var(--gold)}
+.sec{margin-top:22px}
+.st{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;margin-bottom:10px}
+.st i{font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:13px;
+  background:var(--card2);border:1px solid var(--line);color:var(--gold)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pack{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:13px 12px;text-align:left;
+  color:var(--text);font:inherit;cursor:pointer;transition:.15s}
+.pack b{display:block;font-size:19px}
+.pack span{color:var(--muted);font-size:14px}
+.pack.sel{border-color:var(--gold);background:linear-gradient(180deg,rgba(255,185,56,.13),var(--card))}
+.pack.sel span{color:var(--gold)}
+input{width:100%;padding:13px 14px;border-radius:14px;border:2px solid var(--line);background:var(--card);
+  color:var(--text);font:inherit}
+input::placeholder{color:#5d657a}
+input:focus{outline:none;border-color:var(--gold)}
+.hint{color:var(--muted);font-size:13px;margin-top:7px}
+.chip{display:none;margin-top:9px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card2);
+  color:var(--text);font:inherit;font-size:14px;cursor:pointer}
+.pay{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;margin-bottom:10px;padding:14px;
+  background:var(--card);border:2px solid var(--line);border-radius:16px;color:var(--text);font:inherit;cursor:pointer}
+.pay .ic{font-size:26px;line-height:1}
+.pay b{display:block;font-size:16px}
+.pay span{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.pay.sel{border-color:var(--ok);background:linear-gradient(180deg,rgba(53,194,122,.12),var(--card))}
+.sum{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:5px 0;color:var(--muted)}
+.row span:last-child{color:var(--text);text-align:right;word-break:break-all}
+.row.total{border-top:1px dashed var(--line);margin-top:6px;padding-top:12px;color:var(--text);font-weight:700;font-size:19px}
+.row.total span:last-child{color:var(--gold)}
+.note{margin-top:12px;color:var(--muted);font-size:13px}
+.bar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
+  background:rgba(13,16,22,.92);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.go{width:100%;padding:16px;border:0;border-radius:16px;font:inherit;font-weight:700;font-size:17px;cursor:pointer;
+  color:#1a1100;background:linear-gradient(135deg,var(--gold),var(--gold2))}
+.go:disabled{opacity:.4;cursor:default;color:var(--text);background:var(--card2)}
+.adm{display:none;margin:0 auto 14px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card2);
+  color:var(--text);font:inherit;font-size:13px;cursor:pointer}
+#panel{display:none;position:fixed;inset:0;z-index:20;overflow:auto;background:var(--bg);
+  padding:calc(16px + env(safe-area-inset-top,0px)) 16px 40px}
+#panel h2{font-size:20px;margin:4px 0 10px}
+#panel label{display:block;margin:14px 0 5px;font-weight:600;font-size:14px}
+.err{color:var(--err);font-size:14px;margin-top:8px;min-height:18px}
+.err.ok{color:var(--ok)}
+.btn2{width:100%;margin-top:10px;padding:13px;border:2px solid var(--line);border-radius:14px;background:var(--card);
+  color:var(--text);font:inherit;font-weight:600;cursor:pointer}
 </style>
 </head>
 <body>
 
-<h1>Магазин Stars и Robux</h1>
-<button class="adm" id="adminBtn" type="button">⚙ Админ-панель</button>
+<div class="hero">
+  <div class="logo">⭐</div>
+  <h1>Telegram Stars</h1>
+  <div class="sub"><b id="priceLbl">280 сум</b> за 1 звезду · приходят прямо на аккаунт</div>
+</div>
+<div style="text-align:center"><button class="adm" id="adminBtn" type="button">⚙ Админ-панель</button></div>
 
-<div class="tabs">
-  <button class="tab active" data-p="stars" type="button">Telegram Stars</button>
-  <button class="tab" data-p="robux" type="button">Robux</button>
+<div class="sec" style="margin-top:0">
+  <div class="st"><i>1</i>Сколько звёзд</div>
+  <div class="grid" id="packs"></div>
+  <input id="qty" type="number" inputmode="numeric" min="50" step="1" style="margin-top:10px" placeholder="Или своё количество">
+  <div class="hint" id="qtyHint"></div>
 </div>
 
-<div class="grid" id="packs"></div>
-
-<div id="qtyBox">
-<label for="qty" id="qtyLabel">Или своё количество</label>
-<input id="qty" type="number" inputmode="numeric" min="1" step="1" placeholder="Введите количество">
-<div class="hint" id="qtyHint"></div>
+<div class="sec">
+  <div class="st"><i>2</i>Кому отправить</div>
+  <input id="user" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@username получателя">
+  <button class="chip" id="meBtn" type="button"></button>
+  <div class="hint">Звёзды придут на этот Telegram-аккаунт. Проверьте ник перед заказом.</div>
 </div>
 
-<div id="userBox">
-<label for="user" id="userLabel">Ваш Telegram @username</label>
-<input id="user" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@username">
-<div class="hint" id="userHint">Звёзды придут на этот аккаунт.</div>
+<div class="sec">
+  <div class="st"><i>3</i>Способ оплаты</div>
+  <button class="pay" data-m="paynet" type="button"><div class="ic">💳</div>
+    <div><b>Paynet</b><span>Пополнение через уличные банкоматы и терминалы Paynet по всему Узбекистану</span></div></button>
+  <button class="pay" data-m="cash" type="button"><div class="ic">💵</div>
+    <div><b>Наличными</b><span>Только для своих</span></div></button>
 </div>
 
 <div class="sum">
-  <div class="row"><span>Товар</span><span id="sItem">не выбран</span></div>
-  <div class="row"><span>Цена</span><span id="sBase">—</span></div>
-  <div class="row"><span>Сервисный сбор</span><span id="sFee">—</span></div>
+  <div class="row"><span>Звёзды</span><span id="sItem">не выбрано</span></div>
+  <div class="row"><span>Получатель</span><span id="sUser">—</span></div>
+  <div class="row"><span>Оплата</span><span id="sPay">—</span></div>
   <div class="row total"><span>К оплате</span><span id="sTotal">—</span></div>
 </div>
-<div class="hint" style="margin-top:12px">Покупка только через @leytoss. По кнопке откроется чат с готовым сообщением, останется указать, кому отправить.</div>
-<div class="err" id="err"></div>
+<div class="note">После нажатия откроется чат с @leytoss с готовым заказом. Останется нажать «Отправить», дальше я напишу вам по оплате.</div>
 
-<div class="bar">
-  <button class="go" id="go" type="button" disabled>Написать @leytoss и заказать</button>
-</div>
-
+<div class="bar"><button class="go" id="go" type="button" disabled>Выберите количество</button></div>
 
 <div id="panel">
   <h2>Админ-панель</h2>
-  <div class="hint">Цены в сумах. «Закупка» — сколько стоит вам, клиент платит закупка + прибыль.</div>
-
-  <h3>⭐ Telegram Stars</h3>
-  <div class="two"><div><label>Закупка за 1 звезду</label><input id="aSc" type="number" inputmode="numeric"></div>
-  <div><label>Прибыль с заказа</label><input id="aSm" type="number" inputmode="numeric"></div></div>
-  <label>Минимум звёзд</label><input id="aSmin" type="number" inputmode="numeric">
-
-  <h3>Robux</h3>
-  <label>Прибыль с заказа</label><input id="aRm" type="number" inputmode="numeric">
-  <div id="aRlist"></div>
-
-  <h3>Сохранение</h3>
-  <div class="hint">Цены хранятся в файле prices.json в вашем репозитории. Нужен GitHub-токен (fine-grained, доступ Contents: Read and write только к этому репозиторию). Он хранится только на этом телефоне.</div>
+  <div class="hint">Цены в сумах. Клиент платит цену за звезду × количество.</div>
+  <label>Цена за 1 звезду</label><input id="aPrice" type="number" inputmode="numeric">
+  <label>Минимум звёзд</label><input id="aMin" type="number" inputmode="numeric">
+  <div class="hint" style="margin-top:18px">Цены хранятся в prices.json в вашем репозитории. Нужен GitHub-токен (fine-grained, Contents: Read and write только для этого репозитория). Он хранится только на этом телефоне.</div>
   <label>Репозиторий (владелец/название)</label><input id="aRepo" placeholder="username/shop2" autocapitalize="off" spellcheck="false">
   <label>GitHub токен</label><input id="aTok" type="password" placeholder="github_pat_..." autocomplete="off">
   <button class="go" id="aSave" type="button" style="margin-top:16px">Сохранить цены</button>
@@ -116,96 +122,55 @@
 </div>
 
 <script>
-/* ====== НАСТРОЙКИ — меняйте здесь (в сумах) ====== */
-const CATALOG = {
-  stars: {
-    unit: "⭐",
-    markup: 5000,      // ваша прибыль с каждого заказа, сум (одинаковая при любом количестве)
-    cost: 220,         // ваша закупка за 1 звезду (50 зв = 11 000 сум)
-    min: 50, max: 100000,
-    packs: [50, 100, 250, 500, 1000, 2500],
-    custom: true,      // можно вводить своё количество
-    askUser: false,    // ник клиент пишет в сообщении
-    userLabel: "Ваш Telegram @username",
-    userHint: "Звёзды придут на этот аккаунт.",
-    ph: "@username"
-  },
-  robux: {
-    unit: "R$",
-    markup: 4000,      // ваш заработок с заказа, сум
-    // закупка за пакет = официальная цена Roblox. Цена клиенту = закупка + markup (4 000)
-    // 40 и 80 R$ подобраны так, чтобы клиент платил 10 000 и 15 000 (с вашими 4 000 внутри); остальные — по официальным ценам в $
-    costs: {
-      40:    6000,     // клиент платит 10 000
-      80:    11000,    // клиент платит 15 000
-      400:   55400,     // $4.99  — проверьте
-      800:   111000,   // $9.99  — проверьте
-      1700:  222100,   // $19.99 — проверьте
-      4500:  555400,   // $49.99 — проверьте
-      10000: 1111000   // $99.99 — проверьте
-    },
-    custom: false,     // своё количество отключено
-    askUser: false     // ник на странице не спрашиваем
-  }
+/* ====== НАСТРОЙКИ (в сумах) ====== */
+const CFG = {
+  price: 280,                 // цена клиенту за 1 звезду (50 звёзд = 14 000 сум)
+  min: 50, max: 100000,
+  packs: [50, 100, 150, 250, 350, 500, 750, 1000, 1500, 2500]
 };
-CATALOG.robux.packs = Object.keys(CATALOG.robux.costs).map(Number);
-/* ====================================================== */
+const ADMIN = "leytoss";                     // кому приходят заказы
+const ADMINS = ["leytoss", "ibragimiano"];   // кто видит админ-панель (без @, в нижнем регистре)
+const PAY = { paynet: "Paynet (терминал)", cash: "Наличными" };
+/* ================================= */
 
 const tg = window.Telegram && window.Telegram.WebApp;
-if (tg) { tg.ready(); tg.expand(); }
+if (tg) { try { tg.ready(); tg.expand(); tg.setHeaderColor("#0d1016"); tg.setBackgroundColor("#0d1016"); } catch(e){} }
+const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
 
-let product = "stars", amount = null;
+let amount = null, pay = null;
 const $ = id => document.getElementById(id);
 const fmt = n => n.toLocaleString("ru-RU").replace(/\u00a0/g, " ") + " сум";
-const baseOf = n => { const c = CATALOG[product]; return c.costs ? c.costs[n] : n * c.cost; };
+const num = n => n.toLocaleString("ru-RU").replace(/\u00a0/g, " ");
+const normUser = s => { s = s.trim().replace(/^https?:\/\/t\.me\//i, "").replace(/^@/, ""); return /^[A-Za-z][A-Za-z0-9_]{4,31}$/.test(s) ? "@" + s : null; };
+const validAmount = () => Number.isInteger(amount) && amount >= CFG.min && amount <= CFG.max;
 
 function renderPacks(){
-  const c = CATALOG[product];
   $("packs").innerHTML = "";
-  c.packs.forEach(n => {
+  CFG.packs.forEach(n => {
     const b = document.createElement("button");
     b.type = "button";
     b.className = "pack" + (amount === n ? " sel" : "");
-    b.innerHTML = "<b>" + n.toLocaleString("ru-RU") + " " + c.unit + "</b><span>" + fmt(baseOf(n) + CATALOG[product].markup) + "</span>";
+    b.innerHTML = "<b>⭐ " + num(n) + "</b><span>" + fmt(n * CFG.price) + "</span>";
     b.onclick = () => { amount = n; $("qty").value = ""; renderPacks(); update(); };
     $("packs").appendChild(b);
   });
-  $("userBox").style.display = c.askUser ? "" : "none";
-  $("qtyBox").style.display = c.custom ? "" : "none";
-  if (c.askUser){
-    $("userLabel").textContent = c.userLabel;
-    $("userHint").textContent = c.userHint;
-    $("user").placeholder = c.ph;
-  }
-  if (c.custom){
-    $("qty").min = c.min;
-    $("qty").placeholder = "от " + c.min.toLocaleString("ru-RU");
-    $("qtyHint").textContent = "Минимум " + c.min.toLocaleString("ru-RU") + " " + c.unit;
-  }
-}
-
-function validAmount(){
-  const c = CATALOG[product];
-  if (amount === null || !Number.isInteger(amount)) return false;
-  return c.costs ? amount in c.costs : (amount >= c.min && amount <= c.max);
+  $("qty").min = CFG.min;
+  $("qtyHint").textContent = "Минимум " + num(CFG.min) + " ⭐ · можно любое число, например 67 или 59 больше минимума";
+  $("priceLbl").textContent = fmt(CFG.price);
 }
 
 function update(){
-  const c = CATALOG[product];
-  if (validAmount()){
-    const base = baseOf(amount);
-    $("sItem").textContent = amount.toLocaleString("ru-RU") + " " + c.unit;
-    $("sBase").textContent = fmt(base);
-    $("sFee").textContent = fmt(c.markup);
-    $("sFee").parentElement.style.display = "none"; $("sBase").parentElement.style.display = "none";
-    $("sTotal").textContent = fmt(base + c.markup);
-    $("go").disabled = false;
-  } else {
-    ["sBase","sFee","sTotal"].forEach(id => $(id).textContent = "—");
-    $("sItem").textContent = "не выбран";
-    $("sFee").parentElement.style.display = "none"; $("sBase").parentElement.style.display = "none";
-    $("go").disabled = true;
-  }
+  const u = normUser($("user").value), ok = validAmount();
+  $("sItem").textContent = ok ? "⭐ " + num(amount) : "не выбрано";
+  $("sUser").textContent = u || "—";
+  $("sPay").textContent = pay ? PAY[pay] : "—";
+  $("sTotal").textContent = ok ? fmt(amount * CFG.price) : "—";
+  document.querySelectorAll(".pay").forEach(b => b.classList.toggle("sel", b.dataset.m === pay));
+  const go = $("go");
+  if (!ok){ go.disabled = true; go.textContent = "Выберите количество"; }
+  else if (!u){ go.disabled = true; go.textContent = "Укажите @username получателя"; }
+  else if (!pay){ go.disabled = true; go.textContent = "Выберите способ оплаты"; }
+  else { go.disabled = false; go.textContent = "Оформить заказ · " + fmt(amount * CFG.price); }
 }
 
 $("qty").addEventListener("input", () => {
@@ -213,47 +178,42 @@ $("qty").addEventListener("input", () => {
   amount = isNaN(v) ? null : v;
   renderPacks(); update();
 });
+$("user").addEventListener("input", update);
+document.querySelectorAll(".pay").forEach(b => b.onclick = () => { pay = b.dataset.m; update(); });
 
-document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
-  document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
-  t.classList.add("active");
-  product = t.dataset.p; amount = null; $("qty").value = "";
-  renderPacks(); update();
-});
-
-const ADMIN = "leytoss";   // ваш Telegram без @
+if (tgUser && tgUser.username){
+  $("meBtn").style.display = "inline-block";
+  $("meBtn").textContent = "Себе (@" + tgUser.username + ")";
+  $("meBtn").onclick = () => { $("user").value = "@" + tgUser.username; update(); };
+}
 
 $("go").onclick = () => {
-  if (!validAmount()) return;
-  const c = CATALOG[product];
-  const total = baseOf(amount) + c.markup;
-  const name = product === "stars" ? "Telegram Stars" : "Robux";
+  const u = normUser($("user").value);
+  if (!validAmount() || !u || !pay) return;
+  const total = amount * CFG.price;
+  const id = String(Date.now()).slice(-6);
+  let who = "";
+  if (tgUser){
+    const nm = [tgUser.first_name, tgUser.last_name].filter(Boolean).join(" ");
+    who = "Заказчик: " + nm + (tgUser.username ? " (@" + tgUser.username + ")" : " (id " + tgUser.id + ")") + "\n";
+  }
   const msg =
-    "Здравствуйте! Хочу купить:\n" +
-    "Что: " + amount.toLocaleString("ru-RU") + " " + c.unit + " " + name + "\n" +
-    "Сумма: " + fmt(total) + "\n" +
-    "Кому отправить: ";
+    "🛒 Новый заказ #" + id + "\n" +
+    "⭐ Звёзды: " + num(amount) + "\n" +
+    "💰 Сумма: " + fmt(total) + "\n" +
+    "👤 Кому отправить: " + u + "\n" +
+    "💳 Оплата: " + PAY[pay] + "\n" + who;
   const url = "https://t.me/" + ADMIN + "?text=" + encodeURIComponent(msg);
   if (tg && tg.openTelegramLink){ tg.openTelegramLink(url); }
   else { window.open(url, "_blank"); }
 };
 
 /* ====== ЦЕНЫ ИЗ prices.json + АДМИН-ПАНЕЛЬ ====== */
-const ADMINS = ["leytoss", "ibragimiano"];   // Telegram без @, в нижнем регистре
 function applyPrices(p){
-  if (!p) return;
-  const n = v => (Number.isFinite(+v) && +v >= 0) ? Math.round(+v) : null;
-  if (p.stars){
-    if (n(p.stars.cost) !== null) CATALOG.stars.cost = n(p.stars.cost);
-    if (n(p.stars.markup) !== null) CATALOG.stars.markup = n(p.stars.markup);
-    if (n(p.stars.min)) CATALOG.stars.min = n(p.stars.min);
-  }
-  if (p.robux){
-    if (n(p.robux.markup) !== null) CATALOG.robux.markup = n(p.robux.markup);
-    if (p.robux.costs){
-      Object.keys(CATALOG.robux.costs).forEach(k => { if (n(p.robux.costs[k]) !== null) CATALOG.robux.costs[k] = n(p.robux.costs[k]); });
-    }
-  }
+  if (!p || !p.stars) return;
+  const n = v => (Number.isFinite(+v) && +v > 0) ? Math.round(+v) : null;
+  if (n(p.stars.price)) CFG.price = n(p.stars.price);
+  if (n(p.stars.min)) CFG.min = n(p.stars.min);
 }
 async function loadPrices(){
   try { const r = await fetch("prices.json?t=" + Date.now(), {cache:"no-store"}); if (r.ok) applyPrices(await r.json()); } catch(e){}
@@ -261,32 +221,19 @@ async function loadPrices(){
 const lsGet = k => { try { return localStorage.getItem(k) || ""; } catch(e){ return ""; } };
 const lsSet = (k,v) => { try { localStorage.setItem(k, v); } catch(e){} };
 
-const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
 if (tgUser && tgUser.username && ADMINS.includes(tgUser.username.toLowerCase())) $("adminBtn").style.display = "inline-block";
 
-function openPanel(){
-  $("aSc").value = CATALOG.stars.cost; $("aSm").value = CATALOG.stars.markup; $("aSmin").value = CATALOG.stars.min;
-  $("aRm").value = CATALOG.robux.markup;
-  $("aRlist").innerHTML = "";
-  Object.keys(CATALOG.robux.costs).forEach(k => {
-    const d = document.createElement("div"); d.className = "two";
-    d.innerHTML = '<div><label>Закупка ' + Number(k).toLocaleString("ru-RU") + ' R$</label><input type="number" inputmode="numeric" data-k="' + k + '" value="' + CATALOG.robux.costs[k] + '"></div><div class="cl"></div>';
-    $("aRlist").appendChild(d);
-  });
+$("adminBtn").onclick = () => {
+  $("aPrice").value = CFG.price; $("aMin").value = CFG.min;
   $("aRepo").value = lsGet("repo"); $("aTok").value = lsGet("tok"); $("aMsg").textContent = "";
   $("panel").style.display = "block";
-}
-$("adminBtn").onclick = openPanel;
+};
 $("aClose").onclick = () => { $("panel").style.display = "none"; renderPacks(); update(); };
 
 $("aSave").onclick = async () => {
   const msg = $("aMsg"); msg.className = "err";
   const repo = $("aRepo").value.trim(), tok = $("aTok").value.trim();
-  const costs = {}; document.querySelectorAll("#aRlist input").forEach(i => costs[i.dataset.k] = +i.value);
-  const data = {
-    stars: { cost: +$("aSc").value, markup: +$("aSm").value, min: +$("aSmin").value },
-    robux: { markup: +$("aRm").value, costs }
-  };
+  const data = { stars: { price: +$("aPrice").value, min: +$("aMin").value } };
   if (!repo || !tok){ msg.textContent = "Укажите репозиторий и токен."; return; }
   lsSet("repo", repo); lsSet("tok", tok);
   msg.textContent = "Сохраняю…";
